@@ -62,7 +62,7 @@ app.use(function(req, res, next) {
     // })
     next()
   } else {
-    const token = req.headers["x-token"];
+    const token = req.headers["jex-token"];
     // if (!token) {
     //   // saveLog({
     //   //   msg: 'token过期',
