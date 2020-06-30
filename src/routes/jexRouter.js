@@ -2,7 +2,6 @@ const express = require("express");
 const JexRouter = express.Router();
 const dbJson = require("../json/db.json");
 const keys = Object.keys(dbJson);
-const { getCount } = require('./../utils')
 
 keys.forEach((v) => {
   JexRouter.post("/get/" + v, async function (req, res) {

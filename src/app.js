@@ -14,6 +14,7 @@ const { ResponseCode } = require("./config");
 const { Response } = require('./utils')
 const { saveLog } = require('./utils/logs')
 
+const userRouter = require("./routes/userRouter");
 const jexRouter = require("./routes/jexRouter");
 
 const app = express();
@@ -77,6 +78,7 @@ app.use(function(req, res, next) {
   }
 });
 
+app.use(`${config.urlPrefix}/user`, userRouter);
 app.use(`${config.urlPrefix}/`, jexRouter);
 
 // catch 404 and forward to error handler
