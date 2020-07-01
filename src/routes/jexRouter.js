@@ -5,7 +5,7 @@ const keys = Object.keys(dbJson)
 
 keys.forEach((v) => {
   JexRouter.post('/get/' + v, async function (req, res) {
-    const { query, page, order, selects = [], unSelects = [] } = req.body
+    const { query, page, order, selects = [], unSelects = [], reference = [] } = req.body
     const orderMap = {}
     if (order) {
       const orderKeys = Object.keys(order)
@@ -28,9 +28,14 @@ keys.forEach((v) => {
     unSelects.map(v => {
       selectMap[v] = 0
     })
-    console.log(query)
+    console.log(query, reference)
     const DB = require(dbJson[v])
-    DB.find(query, selectMap, (err, docs) => {
+    DB.find(query, selectMap)
+      .populate(reference)
+      .limit(parseInt(page.limitNumber))
+      .skip((parseInt(page.skipNumber) - 1) * parseInt(page.limitNumber))
+      .sort(orderMap)
+      .exec((err, docs) => {
         if (err) {
           res.status(500)
           res.send({ code: 1, msg: err })
@@ -39,9 +44,6 @@ keys.forEach((v) => {
           res.send({ code: 0, data: docs })
         }
       })
-      .limit(parseInt(page.limitNumber))
-      .skip((parseInt(page.skipNumber) - 1) * parseInt(page.limitNumber))
-      .sort(orderMap)
   })
   
   JexRouter.post('/get/count/' + v, async function (req, res) {

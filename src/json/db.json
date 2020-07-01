@@ -1,3 +1,4 @@
 {
-  "Bank" : "./../model/banks.js"
+  "Banks" : "./../model/banks.js",
+  "Users" : "./../model/users.js"
 }
